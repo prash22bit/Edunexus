@@ -44,15 +44,18 @@ export default function AuthPage() {
       <div className="auth-left">
         <div className="auth-branding">
           <div className="auth-icon-wrapper">
-            <svg className="rocket-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" d="M11.3 1.046A12.014 12.014 0 0121 11.642V17a2 2 0 01-2 2h-5.358a12.014 12.014 0 01-10.596-9.7 12.03 12.03 0 013.918-10.457A2 2 0 019.261 1.046zM15 8a1 1 0 100-2 1 1 0 000 2zM9 14.5a1.5 1.5 0 00-3 0v1.758a1 1 0 00.293.707l1.5 1.5a1 1 0 001.414 0l1.5-1.5a1 1 0 00.293-.707V14.5z" clipRule="evenodd" />
-            </svg>
+            <img
+              src="/logo.png"
+              alt="EduNexus"
+              style={{ width: 72, height: 72, objectFit: 'contain' }}
+              onError={e => { e.target.style.display = 'none'; }}
+            />
           </div>
-          <h1>edunexus</h1>
-          <p className="auth-desc">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+          <h1>EduNexus</h1>
+          <p className="auth-desc">Your all-in-one Learning Management System. Learn, grow, and achieve your goals with EduNexus.</p>
         </div>
         <div className="auth-footer">
-          <span>CREATOR HERE</span> &nbsp;|&nbsp; <span>DESIGNER HERE</span>
+          <span>EduNexus</span> &nbsp;|&nbsp; <span>Learn · Grow · Achieve</span>
         </div>
         
         {/* Cloud Separator for Mobile */}

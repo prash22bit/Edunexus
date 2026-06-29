@@ -5,7 +5,7 @@ const API = axios.create({
 });
 
 API.interceptors.request.use((req) => {
-    const user = JSON.parse(localStorage.getItem('lmsUser') || 'null');
+    const user = JSON.parse(localStorage.getItem('edunexusUser') || 'null');
     if (user?.token) req.headers.Authorization = `Bearer ${user.token}`;
     return req;
 });
@@ -14,7 +14,7 @@ API.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            localStorage.removeItem('lmsUser');
+            localStorage.removeItem('edunexusUser');
             window.location.href = '/auth';
         }
         return Promise.reject(error);

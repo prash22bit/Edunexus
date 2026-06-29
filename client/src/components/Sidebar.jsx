@@ -23,11 +23,14 @@ export default function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar-logo">
         <div className="sidebar-logo-icon">
-          <svg style={{ width: 24, height: 24 }} fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path fillRule="evenodd" d="M11.3 1.046A12.014 12.014 0 0121 11.642V17a2 2 0 01-2 2h-5.358a12.014 12.014 0 01-10.596-9.7 12.03 12.03 0 013.918-10.457A2 2 0 019.261 1.046zM15 8a1 1 0 100-2 1 1 0 000 2zM9 14.5a1.5 1.5 0 00-3 0v1.758a1 1 0 00.293.707l1.5 1.5a1 1 0 001.414 0l1.5-1.5a1 1 0 00.293-.707V14.5z" clipRule="evenodd" />
-          </svg>
+          <img
+            src="/logo.png"
+            alt="EduNexus Logo"
+            style={{ width: 36, height: 36, objectFit: 'contain', borderRadius: 6 }}
+            onError={e => { e.target.style.display = 'none'; }}
+          />
         </div>
-        <h1>edunexus</h1>
+        <h1>EduNexus</h1>
       </div>
 
       <div className="sidebar-user">
