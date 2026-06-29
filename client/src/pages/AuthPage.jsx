@@ -4,24 +4,17 @@ import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 
 export default function AuthPage() {
-  const [tab, setTab] = useState('register');
+  const [tab, setTab] = useState('login');
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'student' });
+  const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
   const { login, register } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (e, type) => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    if (type) setTab(type);
-    
-    // If the button clicked is not the active tab, we just switch tabs.
-    // In this UI, both "Sign Up" and "Sign In" are visible. 
-    if (type && type !== tab) {
-      return; 
-    }
-
     setLoading(true);
     try {
       if (tab === 'login') {
@@ -40,113 +33,124 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-left">
-        <div className="auth-branding">
-          <div className="auth-icon-wrapper">
-            <img
-              src="/logo.png"
-              alt="EduNexus"
-              style={{ width: 72, height: 72, objectFit: 'contain' }}
-              onError={e => { e.target.style.display = 'none'; }}
+    <div className="auth-page">
+      {/* Decorative background blobs */}
+      <div className="auth-blob auth-blob-yellow-lg" />
+      <div className="auth-blob auth-blob-yellow-sm" />
+      <div className="auth-blob auth-blob-purple-sm" />
+      <div className="auth-blob auth-blob-purple-dot" />
+
+      {/* Purple wavy line SVG */}
+      <svg className="auth-wave" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <path
+          d="M20,200 C80,120 160,280 240,180 C320,80 400,240 480,140"
+          stroke="#7c3aed"
+          strokeWidth="3"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.5"
+        />
+      </svg>
+
+      {/* Card */}
+      <div className="auth-card">
+        {/* Logo */}
+        <div className="auth-card-logo">
+          <img src="/logo.png" alt="EduNexus" onError={e => { e.target.style.display = 'none'; }} />
+        </div>
+
+        <h2 className="auth-card-title">
+          {tab === 'login' ? 'Welcome Back' : 'Create Account'}
+        </h2>
+        <p className="auth-card-subtitle">
+          {tab === 'login' ? 'Sign in to your EduNexus account' : 'Join EduNexus today'}
+        </p>
+
+        <form className="auth-form" onSubmit={handleSubmit}>
+          {tab === 'register' && (
+            <div className="auth-field">
+              <label>Full Name <span className="auth-required">*</span></label>
+              <input
+                name="name"
+                type="text"
+                placeholder="Enter your Name"
+                value={form.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
+
+          <div className="auth-field">
+            <label>Username / Email <span className="auth-required">*</span></label>
+            <input
+              name="email"
+              type="email"
+              placeholder="Enter your Email"
+              value={form.email}
+              onChange={handleChange}
+              required
             />
           </div>
-          <h1>EduNexus</h1>
-          <p className="auth-desc">Your all-in-one Learning Management System. Learn, grow, and achieve your goals with EduNexus.</p>
-        </div>
-        <div className="auth-footer">
-          <span>EduNexus</span> &nbsp;|&nbsp; <span>Learn · Grow · Achieve</span>
-        </div>
-        
-        {/* Cloud Separator for Mobile */}
-        <div className="cloud-separator">
-           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
-             <path fill="#ffffff" fillOpacity="1" d="M0,160L48,165.3C96,171,192,181,288,197.3C384,213,480,235,576,218.7C672,203,768,149,864,138.7C960,128,1056,160,1152,181.3C1248,203,1344,213,1392,218.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-           </svg>
-        </div>
-        
-        {/* Cloud Separator for Desktop */}
-        <div className="cloud-separator-desktop">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 1440" preserveAspectRatio="none">
-            <path fill="#ffffff" fillOpacity="1" d="M160,0C165.3,48 171,96 197.3,192C213,288 235,384 218.7,480C203,576 149,672 138.7,768C128,864 160,960 181.3,1056C203,1152 213,1248 218.7,1296L224,1440L320,1440L320,1296C320,1248 320,1152 320,1056C320,960 320,864 320,768C320,672 320,576 320,480C320,384 320,288 320,192C320,96 320,48 320,0Z"></path>
-          </svg>
-        </div>
-      </div>
-      
-      <div className="auth-right">
-        <h2 className="auth-title">{tab === 'register' ? 'Create your account' : 'Login to your account'}</h2>
-        
-        <form className="auth-form" onSubmit={(e) => handleSubmit(e, tab)}>
-          {tab === 'register' && (
-            <div className="input-group">
-              <label>Name</label>
-              <div className="input-wrapper">
-                <input name="name" placeholder="Enter your name" value={form.name} onChange={handleChange} required />
-                <span className="check-icon">✓</span>
-              </div>
-            </div>
-          )}
-          
-          <div className="input-group">
-            <label>E-mail Address</label>
-            <div className="input-wrapper">
-              <input name="email" type="email" placeholder="Enter your mail" value={form.email} onChange={handleChange} required />
-              <span className="check-icon">✓</span>
-            </div>
-          </div>
-          
-          <div className="input-group">
-            <label>Password</label>
-            <div className="input-wrapper">
-              <input name="password" type="password" placeholder="Enter your password" value={form.password} onChange={handleChange} required />
-              <span className="check-icon">✓</span>
-            </div>
+
+          <div className="auth-field">
+            <label>Password <span className="auth-required">*</span></label>
+            <input
+              name="password"
+              type="password"
+              placeholder="Enter your Password"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
           </div>
 
           {tab === 'register' && (
-            <div className="input-group">
-              <label>Role</label>
-              <div className="input-wrapper">
-                <select name="role" value={form.role} onChange={handleChange} style={{ width: '100%', border: 'none', background: 'transparent', outline: 'none', color: '#333', padding: '8px 0', fontSize: '0.95rem' }}>
-                  <option value="student">Student</option>
-                  <option value="instructor">Instructor</option>
-                </select>
-              </div>
-            </div>
-          )}
-          
-          {tab === 'register' && (
-            <div className="terms-group">
-              <input type="checkbox" id="terms" required />
-              <label htmlFor="terms">By Signing Up, I Agree with <span>Terms & Conditions</span></label>
+            <div className="auth-field">
+              <label>Role <span className="auth-required">*</span></label>
+              <select name="role" value={form.role} onChange={handleChange}>
+                <option value="student">Student</option>
+                <option value="instructor">Instructor</option>
+              </select>
             </div>
           )}
 
-          <div className="auth-actions">
-            <button 
-              type="button" 
-              className={`btn-auth ${tab === 'register' ? 'btn-primary-solid' : 'btn-outline'}`}
-              onClick={(e) => handleSubmit(e, 'register')}
-              disabled={loading && tab === 'register'}
-            >
-              {loading && tab === 'register' ? <span className="spinner-small" /> : 'Sign Up'}
-            </button>
-            <button 
-              type="button" 
-              className={`btn-auth ${tab === 'login' ? 'btn-primary-solid' : 'btn-outline'}`}
-              onClick={(e) => handleSubmit(e, 'login')}
-              disabled={loading && tab === 'login'}
-            >
-              {loading && tab === 'login' ? <span className="spinner-small" /> : 'Sign In'}
-            </button>
-          </div>
-          
+          {tab === 'login' && (
+            <div className="auth-remember">
+              <label className="auth-check-label">
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  onChange={e => setRemember(e.target.checked)}
+                />
+                Remember me
+              </label>
+            </div>
+          )}
+
+          <button type="submit" className="auth-btn-primary" disabled={loading}>
+            {loading ? <span className="spinner-small" /> : (tab === 'login' ? 'Login' : 'Sign Up')}
+          </button>
         </form>
-        
-        {/* Admin credentials for demo */}
-        <div style={{ marginTop: 40, padding: 12, background: 'rgba(0,0,0,0.02)', borderRadius: 8, border: '1px dashed #ccc', textAlign: 'center' }}>
-          <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: 4, fontWeight: 600 }}>Quick Demo — Admin Seeded Credentials</p>
-          <p style={{ fontSize: '0.75rem', color: '#2563eb' }}>admin@lms.com | admin123</p>
+
+        <div className="auth-links">
+          {tab === 'login' ? (
+            <>
+              <button className="auth-link-btn" onClick={() => {}}>Forgot password?</button>
+              <button className="auth-link-btn" onClick={() => setTab('register')}>
+                Don't have an account? <strong>Sign Up</strong>
+              </button>
+            </>
+          ) : (
+            <button className="auth-link-btn" onClick={() => setTab('login')}>
+              Already have an account? <strong>Sign In</strong>
+            </button>
+          )}
+        </div>
+
+        {/* Demo credentials */}
+        <div className="auth-demo-box">
+          <p>Demo Admin: <strong>admin@lms.com</strong> / <strong>admin123</strong></p>
         </div>
       </div>
     </div>
